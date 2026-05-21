@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dead Kennedys — Cursos de Desenvolvimento de Games</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-2: #11172a;
+      --card: rgba(255, 255, 255, 0.06);
+      --card-strong: rgba(255, 255, 255, 0.1);
+      --text: #eef2ff;
+      --muted: #b7c0e0;
+      --primary: #7c3aed;
+      --primary-2: #22d3ee;
+      --accent: #f59e0b;
+      --success: #34d399;
+      --danger: #fb7185;
+      --border: rgba(255, 255, 255, 0.12);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --radius: 24px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(124, 58, 237, 0.25), transparent 30%),
+        radial-gradient(circle at top right, rgba(34, 211, 238, 0.16), transparent 28%),
+        linear-gradient(180deg, var(--bg), #070a12 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 10, 18, 0.68);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 10px 30px rgba(124, 58, 237, 0.35);
+      font-size: 20px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: linear-gradient(135deg, var(--primary), #4f46e5);
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 18px 40px rgba(79, 70, 229, 0.32);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 22px 50px rgba(79, 70, 229, 0.4); }
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border);
+      box-shadow: none;
+      color: var(--text);
+    }
+
+    .hero {
+      position: relative;
+      padding: 72px 0 36px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      border-radius: 999px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 5.4rem);
+      line-height: 0.95;
+      margin: 0;
+      letter-spacing: -0.05em;
+    }
+
+    h1 .gradient {
+      background: linear-gradient(135deg, #fff, #a78bfa 55%, #22d3ee);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 60ch;
+      margin: 22px 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-card {
+      position: relative;
+      padding: 24px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -80px -120px auto auto;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(34,211,238,0.28), transparent 65%);
+      pointer-events: none;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(52, 211, 153, 0.14);
+      color: #a7f3d0;
+      font-size: 0.88rem;
+      font-weight: 700;
+      border: 1px solid rgba(52, 211, 153, 0.25);
+    }
+
+    .preview {
+      display: grid;
+      gap: 14px;
+    }
+
+    .preview-item {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(17, 23, 42, 0.72);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .preview-item .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .progress {
+      height: 10px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), var(--primary-2));
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      padding: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .stat span { color: var(--muted); font-size: 0.95rem; }
+
+    section { padding: 70px 0; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      margin: 0;
+      letter-spacing: -0.04em;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 60ch;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 18px 0 28px;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+
+    .chip.active, .chip:hover {
+      color: white;
+      background: rgba(124, 58, 237, 0.2);
+      border-color: rgba(167, 139, 250, 0.35);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .course-card, .feature-card, .testimonial, .faq-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .course-card {
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .course-card:hover { transform: translateY(-4px); border-color: rgba(34,211,238,0.22); }
+
+    .course-tag {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: white;
+      background: linear-gradient(135deg, rgba(124,58,237,0.9), rgba(34,211,238,0.75));
+      margin-bottom: 16px;
+    }
+
+    .course-card h3 { margin: 0 0 10px; font-size: 1.35rem; }
+    .course-card p { margin: 0 0 16px; color: var(--muted); line-height: 1.65; }
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .feature-card {
+      padding: 24px;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(124,58,237,0.16);
+      border: 1px solid rgba(167,139,250,0.24);
+      flex: 0 0 auto;
+    }
+
+    .feature-item h4, .testimonial h4 { margin: 0 0 6px; }
+    .feature-item p { margin: 0; color: var(--muted); line-height: 1.6; }
+
+    .studio {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .studio-visual {
+      min-height: 280px;
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(17,23,42,0.6), rgba(17,23,42,0.9)),
+        url('https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80') center/cover;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: end;
+      padding: 22px;
+    }
+
+    .studio-visual .label {
+      max-width: 240px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(8, 11, 20, 0.75);
+      border: 1px solid rgba(255,255,255,0.09);
+      backdrop-filter: blur(10px);
+    }
+
+    .studio-visual .label strong { display: block; margin-bottom: 6px; }
+    .studio-visual .label span { color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
+
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .testimonial {
+      padding: 22px;
+    }
+
+    .stars { color: var(--accent); letter-spacing: 2px; margin-bottom: 14px; }
+
+    .testimonial p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0 0 18px;
+    }
+
+    .person {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      font-weight: 800;
+    }
+
+    .person small { color: var(--muted); display: block; margin-top: 3px; }
+
+    .faq {
+      display: grid;
+      gap: 14px;
+    }
+
+    .faq-item {
+      overflow: hidden;
+    }
+
+    .faq-q {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 20px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 22px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .faq-item.open .faq-a {
+      max-height: 160px;
+      padding-bottom: 20px;
+    }
+
+    .cta {
+      padding-bottom: 90px;
+    }
+
+    .cta-box {
+      border-radius: 32px;
+      padding: 34px;
+      background:
+        radial-gradient(circle at top right, rgba(34,211,238,0.22), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(124,58,237,0.26), transparent 35%),
+        rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-box h2 { margin: 0 0 10px; font-size: clamp(1.8rem, 3vw, 2.7rem); }
+    .cta-box p { margin: 0; color: var(--muted); line-height: 1.65; max-width: 60ch; }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 24px 0 36px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .back-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(8,11,20,0.75);
+      color: white;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: 0.25s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .back-top.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .mobile-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: white;
+      cursor: pointer;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid, .features-grid { grid-template-columns: 1fr; }
+      .cards, .testimonials { grid-template-columns: 1fr 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links, .nav .btn { display: none; }
+      .mobile-toggle { display: inline-grid; place-items: center; }
+      .cards, .testimonials, .stats { grid-template-columns: 1fr; }
+      .hero { padding-top: 38px; }
+      .cta-box { padding: 24px; }
+      .container { width: min(var(--max), calc(100% - 22px)); }
+    }
+
+    .mobile-menu {
+      display: none;
+      padding: 0 0 16px;
+    }
+
+    .mobile-menu.open { display: grid; gap: 10px; }
+
+    .mobile-menu a {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="brand" aria-label="Dead Kennedys">
+          <div class="brand-mark">DK</div>
+          <div>
+            Dead Kennedys
+            <div style="font-size:.82rem;color:var(--muted);font-weight:600;">Game Dev Academy</div>
+          </div>
+        </div>
+
+        <nav class="nav-links" aria-label="Navegação principal">
+          <a href="#cursos">Cursos</a>
+          <a href="#metodo">Método</a>
+          <a href="#depoimentos">Depoimentos</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+
+        <button class="btn">Matricule-se</button>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Abrir menu">☰</button>
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="#cursos">Cursos</a>
+        <a href="#metodo">Método</a>
+        <a href="#depoimentos">Depoimentos</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contato">Matricule-se</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">⚡ Do zero ao seu primeiro game jogável</div>
+            <h1><span class="gradient">Crie jogos incríveis</span> com uma escola feita para futuros devs.</h1>
+            <p>
+              A Dead Kennedys é uma empresa fictícia criada para ensinar desenvolvimento de games de forma prática,
+              criativa e divertida. Aprenda Unity, Godot, programação, arte e design em projetos pensados para o mundo real.
+            </p>
+            <div class="hero-actions">
+              <a class="btn" href="#cursos">Explorar cursos</a>
+              <a class="btn secondary" href="#metodo">Conhecer o método</a>
+            </div>
+
+            <div class="stats" aria-label="Indicadores da empresa">
+              <div class="stat">
+                <strong class="count" data-target="1200">0</strong>
+                <span>alunos formados</span>
+              </div>
+              <div class="stat">
+                <strong class="count" data-target="48">0</strong>
+                <span>projetos publicados</span>
+              </div>
+              <div class="stat">
+                <strong class="count" data-target="94">0</strong>
+                <span>% de satisfação</span>
+              </div>
+              <div class="stat">
+                <strong class="count" data-target="7">0</strong>
+                <span>dias por desafio</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <div class="card-top">
+              <div>
+                <div style="color:var(--muted);font-weight:600;margin-bottom:6px;">Trilha em destaque</div>
+                <h3 style="margin:0;font-size:1.6rem;">Game Builder Pro</h3>
+              </div>
+              <span class="badge">Ao vivo</span>
+            </div>
+
+            <div class="preview">
+              <div class="preview-item">
+                <div class="row"><span>Game Design</span><span>85%</span></div>
+                <div class="progress"><span style="width:85%"></span></div>
+              </div>
+              <div class="preview-item">
+                <div class="row"><span>Programação</span><span>72%</span></div>
+                <div class="progress"><span style="width:72%"></span></div>
+              </div>
+              <div class="preview-item">
+                <div class="row"><span>Publicação</span><span>90%</span></div>
+                <div class="progress"><span style="width:90%"></span></div>
+              </div>
+              <div class="preview-item" style="display:flex;justify-content:space-between;gap:14px;align-items:center;">
+                <div>
+                  <div style="font-weight:700;margin-bottom:4px;">Capítulo atual</div>
+                  <div style="color:var(--muted);">Construindo um sistema de inimigos</div>
+                </div>
+                <div style="font-size:2rem;">🎮</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cursos">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Escolha sua trilha</h2>
+            <p>Três caminhos para diferentes perfis: quem está começando, quem quer subir de nível e quem quer lançar um jogo completo.</p>
+          </div>
+          <div class="filters" aria-label="Filtros de cursos">
+            <button class="chip active" data-filter="all">Todos</button>
+            <button class="chip" data-filter="iniciante">Iniciante</button>
+            <button class="chip" data-filter="intermediario">Intermediário</button>
+            <button class="chip" data-filter="avancado">Avançado</button>
+          </div>
+        </div>
+
+        <div class="cards" id="courseGrid">
+          <article class="course-card" data-level="iniciante">
+            <span class="course-tag">Iniciante</span>
+            <h3>Fundamentos do Game Dev</h3>
+            <p>Aprenda lógica de programação, estruturas básicas e a mentalidade para construir jogos sem medo de começar.</p>
+            <div class="meta"><span>8 semanas</span><span>Certificado</span></div>
+          </article>
+
+          <article class="course-card" data-level="intermediario">
+            <span class="course-tag">Intermediário</span>
+            <h3>Unity na Prática</h3>
+            <p>Crie mecânicas, menus, HUDs e sistemas de fase com foco em desenvolvimento 2D e 3D dentro da Unity.</p>
+            <div class="meta"><span>10 semanas</span><span>Projeto final</span></div>
+          </article>
+
+          <article class="course-card" data-level="avancado">
+            <span class="course-tag">Avançado</span>
+            <h3>Lançamento de Jogo Indie</h3>
+            <p>Planeje, produza e publique um game com identidade própria, marketing básico e estratégia de portfólio.</p>
+            <div class="meta"><span>12 semanas</span><span>Mentoria</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="metodo">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Um método que parece jogo, mas ensina de verdade</h2>
+            <p>O conteúdo é dividido em missões, checkpoints e recompensas para deixar o aprendizado mais leve e envolvente.</p>
+          </div>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <h3 style="margin-top:0; font-size:1.5rem;">Aprendizado por missões</h3>
+            <p style="color:var(--muted);line-height:1.7; margin-top:10px;">
+              Cada módulo vira uma missão com objetivos claros: construir, testar, corrigir e melhorar. Isso ajuda o aluno a enxergar evolução real em cada etapa.
+            </p>
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="icon">1</div>
+                <div>
+                  <h4>Teoria curta, prática longa</h4>
+                  <p>Explicações diretas e desafios práticos para não travar o ritmo.</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="icon">2</div>
+                <div>
+                  <h4>Portfólio desde o começo</h4>
+                  <p>O aluno termina com projetos que pode mostrar em entrevistas e redes sociais.</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="icon">3</div>
+                <div>
+                  <h4>Comunidade e feedback</h4>
+                  <p>Correções, dicas e incentivo para desenvolver como profissional.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="studio">
+            <div class="studio-visual">
+              <div class="label">
+                <strong>Laboratório criativo</strong>
+                <span>Ambiente de estudo inspirado em um estúdio indie: organização, testes, protótipos e muita experimentação.</span>
+              </div>
+            </div>
+            <div class="feature-card">
+              <h4 style="margin-top:0;">Ferramentas ensinadas</h4>
+              <p style="color:var(--muted);line-height:1.7; margin-bottom:0;">
+                Unity, Godot, C#, lógica de jogos, level design, interface, animação básica e publicação para portfólio.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="depoimentos">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Quem estuda, aprova</h2>
+            <p>Alguns comentários fictícios para dar vida ao projeto escolar e mostrar como a página poderia apresentar provas sociais.</p>
+          </div>
+        </div>
+
+        <div class="testimonials">
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>“Consegui montar meu primeiro jogo em poucos módulos. A sensação de progresso é muito boa e o visual da plataforma motiva bastante.”</p>
+            <div class="person">
+              <div class="avatar">L</div>
+              <div><strong>Lívia Santos</strong><small>Aluna iniciante</small></div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>“As missões deixam o estudo menos cansativo. Em vez de só assistir aula, eu sempre saio com algo jogável.”</p>
+            <div class="person">
+              <div class="avatar">R</div>
+              <div><strong>Rafael Lima</strong><small>Game designer</small></div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>“A trilha de lançamento indie é excelente. O curso parece uma roadmap real para colocar um projeto no mundo.”</p>
+            <div class="person">
+              <div class="avatar">M</div>
+              <div><strong>Marina Alves</strong><small>Dev independente</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Perguntas frequentes</h2>
+            <p>Uma área simples para completar a homepage e mostrar organização nas informações mais comuns.</p>
+          </div>
+        </div>
+
+        <div class="faq">
+          <div class="faq-item">
+            <button class="faq-q">Preciso saber programar para começar? <span>+</span></button>
+            <div class="faq-a">Não. A trilha inicial foi pensada para iniciantes e começa do básico, com explicações simples e práticas guiadas.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">Os cursos são online ou presenciais? <span>+</span></button>
+            <div class="faq-a">Neste projeto fictício, a proposta é totalmente online, com aulas gravadas, desafios e acompanhamento por mentoria.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">Vou terminar com portfólio? <span>+</span></button>
+            <div class="faq-a">Sim. A ideia é que cada aluno construa pequenos projetos e ao final tenha materiais para mostrar em entrevistas ou redes sociais.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="contato">
+      <div class="container">
+        <div class="cta-box">
+          <div>
+            <h2>Pronto para criar seu primeiro jogo?</h2>
+            <p>Monte sua jornada, pratique com projetos e transforme ideias em experiências interativas. Ideal para um trabalho escolar com visual moderno e interativo.</p>
+          </div>
+          <a class="btn" href="#top" id="ctaBtn">Começar agora</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <strong style="color:var(--text);">Dead Kennedys Game Dev Academy</strong>
+          <div>Projeto fictício para fins escolares.</div>
+        </div>
+        <div>© 2026 • Criatividade, código e jogos</div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-top" id="backTop" aria-label="Voltar ao topo">↑</button>
+
+  <script>
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileToggle?.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+
+    const chips = document.querySelectorAll('.chip');
+    const cards = document.querySelectorAll('.course-card');
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const filter = chip.dataset.filter;
+        cards.forEach(card => {
+          const visible = filter === 'all' || card.dataset.level === filter;
+          card.style.display = visible ? 'block' : 'none';
+        });
+      });
+    });
+
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        item.classList.toggle('open');
+        btn.querySelector('span').textContent = item.classList.contains('open') ? '−' : '+';
+      });
+    });
+
+    const backTop = document.getElementById('backTop');
+    const onScroll = () => {
+      backTop.classList.toggle('show', window.scrollY > 500);
+    };
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('ctaBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    const counters = document.querySelectorAll('.count');
+    const animateCount = (el) => {
+      const target = +el.dataset.target;
+      const duration = 1400;
+      const start = performance.now();
+      const step = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const value = Math.floor(progress * target);
+        el.textContent = target >= 100 ? value.toLocaleString('pt-BR') : value;
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target.toLocaleString('pt-BR');
+      };
+      requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCount(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+
+    counters.forEach(counter => observer.observe(counter));
+  </script>
+</body>
+</html>
